@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const axios = require('axios');
 const ObjectsToCsv = require('objects-to-csv')
 
 
@@ -6,8 +7,12 @@ let data = []
 let url = 'http://13.68.147.67/'
 let count = 0;
 let interval;
-let limit = 600
+let limit = 10
 
+const responseTime = async () => {
+    response = await axios(url).catch(err => console.error(err))
+    return await response.headers["x-response-time"]
+}
 
 const loadSpeed = async () => {
   const browser = await puppeteer.launch();
@@ -34,9 +39,12 @@ const loadSpeed = async () => {
 
   // and log the load time of the webpage
   console.log(perf.loadTime);
+  let usage = await axios(url + "usage").catch(err => console.error(err))
+  console.log(usage.data)
   data.push({
-    "time (s)": Math.floor(new Date().getTime()/1000.0),
-    "Page Load (s)": perf.loadTime
+    "Timestamp (s)": Math.floor(new Date().getTime()/1000.0),
+    "Page Load Speed (s)": perf.loadTime,
+    "Response Time (ms)": await responseTime()
 })
 
   // we're done; close the browser
@@ -45,3 +53,4 @@ const loadSpeed = async () => {
 
 
 interval = setInterval(loadSpeed, 1000)
+responseTime().catch(err => console.error(err))
