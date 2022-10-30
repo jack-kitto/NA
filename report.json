@@ -1,0 +1,13 @@
+{
+	"count": 50,
+	"responseTimes": {
+		"min": 457,
+		"max": 531,
+		"mean": 496,
+		"median": 496,
+		"percentiles": {
+			"75": 512.5,
+			"90": 516
+		}
+	}
+}
