@@ -3,7 +3,7 @@ var morgan = require('morgan')
 var port = 80
 
 var app = express()
-
+let responseTime
 app.use(morgan('tiny'))
 app.use(express.static('public'))
 const getDurationInMilliseconds  = (start) => {
@@ -17,22 +17,15 @@ const getDurationInMilliseconds  = (start) => {
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.originalUrl} [STARTED]`)
     const start = process.hrtime()
-
     res.on('finish', () => {            
-        const durationInMilliseconds = getDurationInMilliseconds (start)
-        console.log(`${req.method} ${req.originalUrl} [FINISHED] ${durationInMilliseconds.toLocaleString()} ms`)
+        responseTime = getDurationInMilliseconds (start)
+        console.log(`${req.method} ${req.originalUrl} [FINISHED] ${responseTime.toLocaleString()} ms`)
     })
-
-    res.on('close', () => {
-        const durationInMilliseconds = getDurationInMilliseconds (start)
-        console.log(`${req.method} ${req.originalUrl} [CLOSED] ${durationInMilliseconds.toLocaleString()} ms`)
-    })
-
     next()
 })
 
 app.get('/', function (req, res) {
-  res.send('hello, world!')
+  res.send(`${responseTime.toLocaleString()} ms`)
 })
 
 app.listen(port, () => {
