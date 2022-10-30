@@ -1,6 +1,6 @@
 var express = require('express')
 var morgan = require('morgan')
-var port = 3000
+var port = 80
 
 var app = express()
 
@@ -11,5 +11,5 @@ app.get('/', function (req, res) {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Listening on port ${port}`)
 })

@@ -1,7 +1,7 @@
 require('freeloader').global();
 require('freeloader-bundle').global();
 
-var r = request.get('http://localhost:3000/')
+var r = request.get('http://13.68.147.67/')
                .header('Accept', 'application/json');
 
 emit(r)
