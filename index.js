@@ -1,31 +1,27 @@
 var express = require('express')
 var morgan = require('morgan')
+var responseTime = require('response-time')
+var StatsD = require('node-statsd')
 var port = 80
-
 var app = express()
-let responseTime
+var stats = new StatsD()
+
 app.use(morgan('tiny'))
-app.use(express.static('public'))
-const getDurationInMilliseconds  = (start) => {
-    const NS_PER_SEC = 1e9
-    const NS_TO_MS = 1e6
-    const diff = process.hrtime(start)
+app.use(responseTime())
 
-    return (diff[0] * NS_PER_SEC + diff[1]) / NS_TO_MS
-}
-
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.originalUrl} [STARTED]`)
-    const start = process.hrtime()
-    res.on('finish', () => {            
-        responseTime = getDurationInMilliseconds (start)
-        console.log(`${req.method} ${req.originalUrl} [FINISHED] ${responseTime.toLocaleString()} ms`)
-    })
-    next()
+stats.socket.on('error', function (error) {
+  console.error(error.stack)
 })
 
+app.use(responseTime(function (req, res, time) {
+  var stat = (req.method + req.url).toLowerCase()
+    .replace(/[:.]/g, '')
+    .replace(/\//g, '_')
+  stats.timing(stat, time)
+}))
+
 app.get('/', function (req, res) {
-  res.send(responseTime)
+  res.send('hello, world!')
 })
 
 app.listen(port, () => {
