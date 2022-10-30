@@ -40,7 +40,7 @@ const loadSpeed = async () => {
   // and log the load time of the webpage
   console.log(perf.loadTime);
   let usage = await axios(url + "usage").catch(err => console.error(err))
-  console.log(usage.data)
+  console.log(await usage.data)
   data.push({
     "Timestamp (s)": Math.floor(new Date().getTime()/1000.0),
     "Page Load Speed (s)": perf.loadTime,

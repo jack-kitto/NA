@@ -26,10 +26,12 @@ app.get('/', function (req, res) {
   res.send('hello, world!')
 })
 app.get('/usage', function (req, res) {
-  res.send({
-    "cpu": os_utils.cpuUsage(),
-    "free_mem": os.freemem()
-  })
+    os_utils.cpuUsage(function(v){
+        res.send({
+            "cpu": v,
+            "free_mem": os.freemem()
+        })
+    });
 })
 
 app.listen(port, () => {
