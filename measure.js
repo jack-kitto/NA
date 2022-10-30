@@ -39,12 +39,16 @@ const loadSpeed = async () => {
 
   // and log the load time of the webpage
   console.log(perf.loadTime);
-  let usage = await axios(url + "usage").catch(err => console.error(err))
-  console.log(await usage.data)
+  let response = await axios(url + "usage").catch(err => console.error(err))
+  console.log(await response)
+  console.log(await response.data)
+  
   data.push({
     "Timestamp (s)": Math.floor(new Date().getTime()/1000.0),
     "Page Load Speed (s)": perf.loadTime,
-    "Response Time (ms)": await responseTime()
+    "Response Time (ms)": await responseTime(),
+    "CPU Usage (%)": usage.cpu,
+    "Free System Memory (bytes)": usage.free_mem
 })
 
   // we're done; close the browser

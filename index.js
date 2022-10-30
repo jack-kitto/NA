@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 })
 app.get('/usage', function (req, res) {
     os_utils.cpuUsage(function(v){
-        res.send({
+        res.json({
             "cpu": v,
             "free_mem": os.freemem()
         })
