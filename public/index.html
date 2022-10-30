@@ -10,19 +10,6 @@
       <meta name="keywords" content="html, css, web, design, sample, practice">
       <!-- These are META TAGS, they're used to describe the website, this information is read mainly by search engines like GOOGLE, YAHOO, ETC... -->	
 	<link rel="stylesheet" href="style.css">
-	<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
-	<script src="https://<your-cdn-host>.com/path/to/elastic-apm-rum.umd.min-<version>.js" crossorigin></script>
-	<script>
-		;(function(d, s, c) {
-			var j = d.createElement(s),
-			t = d.getElementsByTagName(s)[0]
-		
-			j.src = 'https://<your-cdn-host>.com/path/to/elastic-apm-rum.umd.min-<version>.js'
-			j.onload = function() {elasticApm.init(c)}
-			t.parentNode.insertBefore(j, t)
-		})(document, 'script', {serviceName: '<instrumented-app>', serverUrl: '<apm-server-url>'})
-		</script>
-
 </head>
 <body>
 	<div class="container">
